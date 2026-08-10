@@ -27,9 +27,11 @@
           class="glass-input text-xs w-full sm:w-auto"
         >
           <option value="all">Todas las Categorías</option>
-          <option value="Institucional">Institucional</option>
-          <option value="Alimentos & Horeca">Alimentos & Horeca</option>
-          <option value="Oficina & Imprenta">Oficina & Imprenta</option>
+          <option value="Papel Higiénico Premium">Papel Higiénico Premium</option>
+          <option value="Papel Higiénico Comercial">Papel Higiénico Comercial</option>
+          <option value="Servilletas de Mesa">Servilletas de Mesa</option>
+          <option value="Toallas Absorbentes e Industriales">Toallas Absorbentes e Industriales</option>
+          <option value="Cuidado Personal & Pañuelos">Cuidado Personal & Pañuelos</option>
         </select>
       </div>
     </div>

@@ -1,5 +1,5 @@
 <template>
-  <div class="min-h-screen flex flex-col bg-slate-950 text-slate-100 selection:bg-brand-500 selection:text-white">
+  <div class="min-h-screen flex flex-col bg-[#F7F9FB] text-[#191C1E] selection:bg-brand-600 selection:text-white font-sans antialiased">
     <UIHeader />
     <main class="flex-1">
       <slot />
@@ -9,5 +9,5 @@
 </template>
 
 <script setup lang="ts">
-// Default layout
+// Industrial Purity Default Layout
 </script>

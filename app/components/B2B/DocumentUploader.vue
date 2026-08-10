@@ -1,160 +1,134 @@
 <template>
-  <div class="flex flex-col gap-2">
-    <label class="block text-sm font-medium text-slate-300">
-      {{ label }} <span v-if="required" class="text-rose-500">*</span>
+  <div class="space-y-2">
+    <label class="block text-xs font-bold text-slate-700 uppercase">
+      {{ label }} <span v-if="required" class="text-accent-500">*</span>
     </label>
 
+    <!-- Upload Dropzone Box -->
     <div
       @dragover.prevent="isDragging = true"
       @dragleave.prevent="isDragging = false"
       @drop.prevent="handleDrop"
       :class="[
-        'relative border-2 border-dashed rounded-xl p-4 flex flex-col items-center justify-center text-center transition-all cursor-pointer',
-        isDragging ? 'border-brand-500 bg-brand-500/10' : 'border-slate-800 bg-slate-950/40 hover:border-slate-700 hover:bg-slate-900/60',
-        uploadedUrl ? 'border-emerald-500/50 bg-emerald-500/5' : ''
+        'relative border-2 border-dashed rounded-xl p-6 transition-all text-center flex flex-col items-center justify-center gap-2 cursor-pointer bg-white',
+        isDragging ? 'border-brand-600 bg-brand-50' : 'border-[#E2E8F0] hover:border-brand-400 hover:bg-slate-50',
+        modelValue ? 'border-emerald-500 bg-emerald-50/30' : ''
       ]"
       @click="triggerFileInput"
     >
       <input
-        ref="fileInputRef"
+        ref="fileInput"
         type="file"
-        accept="application/pdf"
+        accept="application/pdf,image/png,image/jpeg"
         class="hidden"
         @change="handleFileSelect"
       />
 
-      <!-- Success State -->
-      <template v-if="uploadedUrl">
-        <div class="flex items-center gap-3">
-          <div class="w-10 h-10 rounded-lg bg-emerald-500/20 text-emerald-400 flex items-center justify-center">
-            <CheckCircle2 class="w-6 h-6" />
-          </div>
-          <div class="text-left">
-            <p class="text-sm font-semibold text-emerald-300 truncate max-w-[200px]">
-              {{ fileName || 'Documento PDF Cargado' }}
-            </p>
-            <p class="text-xs text-slate-400">Clic para cambiar archivo PDF</p>
-          </div>
-        </div>
+      <template v-if="uploading">
+        <Loader2 class="w-8 h-8 text-brand-600 animate-spin" />
+        <span class="text-xs font-semibold text-brand-900">Subiendo documento a servidor...</span>
       </template>
 
-      <!-- Uploading State -->
-      <template v-else-if="uploading">
-        <div class="flex flex-col items-center gap-2 py-2">
-          <Loader2 class="w-8 h-8 text-brand-400 animate-spin" />
-          <span class="text-xs font-medium text-slate-300">Subiendo a servidor seguro...</span>
+      <template v-else-if="modelValue">
+        <div class="w-10 h-10 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center font-bold">
+          <CheckCircle2 class="w-6 h-6" />
         </div>
+        <div class="space-y-1">
+          <span class="text-xs font-bold text-emerald-800 block">Documento Cargado con Éxito</span>
+          <a
+            :href="modelValue"
+            target="_blank"
+            @click.stop
+            class="text-[11px] font-bold text-brand-600 hover:underline inline-flex items-center gap-1"
+          >
+            <FileText class="w-3.5 h-3.5" /> Ver PDF Adjunto
+          </a>
+        </div>
+        <button
+          type="button"
+          @click.stop="removeFile"
+          class="text-[11px] text-accent-600 font-bold hover:underline mt-1"
+        >
+          Reemplazar Documento
+        </button>
       </template>
 
-      <!-- Empty Default State -->
       <template v-else>
-        <FileText class="w-8 h-8 text-slate-500 mb-2" />
-        <p class="text-sm text-slate-300 font-medium">
-          Arrastra tu PDF aquí o <span class="text-brand-400 hover:underline">examina tu equipo</span>
-        </p>
-        <p class="text-xs text-slate-500 mt-1">Formato PDF obligatorio (Máx 10 MB)</p>
+        <div class="w-10 h-10 rounded-full bg-brand-50 text-brand-600 flex items-center justify-center font-bold border border-brand-200">
+          <UploadCloud class="w-5 h-5" />
+        </div>
+        <div>
+          <span class="text-xs font-bold text-brand-900 block">Haz clic para adjuntar archivo PDF</span>
+          <span class="text-[10px] text-slate-400">PDF, JPG o PNG (Máx 10 MB)</span>
+        </div>
       </template>
     </div>
-
-    <!-- Error message display -->
-    <p v-if="errorMessage" class="text-xs text-rose-400 flex items-center gap-1 font-medium">
-      <AlertCircle class="w-3.5 h-3.5" /> {{ errorMessage }}
-    </p>
   </div>
 </template>
 
 <script setup lang="ts">
 import { ref } from 'vue';
-import { FileText, CheckCircle2, Loader2, AlertCircle } from 'lucide-vue-next';
+import { UploadCloud, CheckCircle2, FileText, Loader2 } from 'lucide-vue-next';
 
 const props = defineProps({
-  label: {
-    type: Number || String,
-    required: true,
-  },
-  modelValue: {
-    type: String,
-    default: '',
-  },
-  bucket: {
-    type: String,
-    default: 'registration-docs',
-  },
-  required: {
-    type: Boolean,
-    default: true,
-  },
+  label: { type: String, required: true },
+  modelValue: { type: String, default: '' },
+  bucket: { type: String, default: 'registration-docs' },
+  required: { type: Boolean, default: false },
 });
 
-const emit = defineEmits(['update:modelValue', 'uploaded']);
+const emit = defineEmits(['update:modelValue']);
+const supabase = useB2BSupabaseClient();
 
-const supabase = useSupabaseClient();
-const fileInputRef = ref<HTMLInputElement | null>(null);
+const fileInput = ref<HTMLInputElement | null>(null);
 const isDragging = ref(false);
 const uploading = ref(false);
-const uploadedUrl = ref(props.modelValue);
-const fileName = ref('');
-const errorMessage = ref('');
 
 const triggerFileInput = () => {
-  fileInputRef.value?.click();
-};
-
-const processFile = async (file: File) => {
-  errorMessage.value = '';
-
-  if (file.type !== 'application/pdf') {
-    errorMessage.value = 'El archivo debe ser en formato PDF obligatorio.';
-    return;
-  }
-
-  if (file.size > 10 * 1024 * 1024) {
-    errorMessage.value = 'El archivo excede el tamaño máximo permitido de 10 MB.';
-    return;
-  }
-
-  try {
-    uploading.value = true;
-    fileName.value = file.name;
-
-    const fileExt = file.name.split('.').pop();
-    const filePath = `${Date.now()}_${Math.random().toString(36).substring(7)}.${fileExt}`;
-
-    const { data, error } = await supabase.storage
-      .from(props.bucket)
-      .upload(filePath, file, { cacheControl: '3600', upsert: true });
-
-    if (error) {
-      throw error;
-    }
-
-    const { data: publicUrlData } = supabase.storage
-      .from(props.bucket)
-      .getPublicUrl(filePath);
-
-    const finalUrl = publicUrlData.publicUrl;
-    uploadedUrl.value = finalUrl;
-    emit('update:modelValue', finalUrl);
-    emit('uploaded', finalUrl);
-  } catch (err: any) {
-    console.error('File upload error:', err);
-    errorMessage.value = err.message || 'Error al subir el documento.';
-  } finally {
-    uploading.value = false;
-  }
+  fileInput.value?.click();
 };
 
 const handleFileSelect = (event: Event) => {
-  const target = event.target as HTMLInputElement;
-  if (target.files && target.files.length > 0) {
-    processFile(target.files[0]);
+  const input = event.target as HTMLInputElement;
+  if (input.files && input.files[0]) {
+    uploadFile(input.files[0]);
   }
 };
 
 const handleDrop = (event: DragEvent) => {
   isDragging.value = false;
-  if (event.dataTransfer?.files && event.dataTransfer.files.length > 0) {
-    processFile(event.dataTransfer.files[0]);
+  if (event.dataTransfer?.files && event.dataTransfer.files[0]) {
+    uploadFile(event.dataTransfer.files[0]);
   }
+};
+
+const uploadFile = async (file: File) => {
+  try {
+    uploading.value = true;
+    const fileExt = file.name.split('.').pop();
+    const fileName = `${Date.now()}_${Math.random().toString(36).substring(7)}.${fileExt}`;
+    const filePath = `uploads/${fileName}`;
+
+    const { error: uploadErr } = await supabase.storage
+      .from(props.bucket)
+      .upload(filePath, file, { upsert: true });
+
+    if (uploadErr) throw uploadErr;
+
+    const { data: publicUrlData } = supabase.storage
+      .from(props.bucket)
+      .getPublicUrl(filePath);
+
+    emit('update:modelValue', publicUrlData.publicUrl);
+  } catch (err: any) {
+    console.error('File upload error:', err);
+    alert(err.message || 'Error al subir archivo a Supabase Storage.');
+  } finally {
+    uploading.value = false;
+  }
+};
+
+const removeFile = () => {
+  emit('update:modelValue', '');
 };
 </script>

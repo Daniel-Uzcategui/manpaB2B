@@ -16,15 +16,15 @@ export default defineNuxtConfig({
 
   supabase: {
     redirect: false, // Custom authentication middleware handled in app/middleware/auth.global.ts
-    url: process.env.SUPABASE_URL,
-    key: process.env.SUPABASE_KEY
+    url: process.env.SUPABASE_URL || 'https://voyatlhmdfbkpisdyqzy.supabase.co',
+    key: process.env.SUPABASE_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.dummy'
   },
 
   css: ['~/assets/css/main.css'],
 
   app: {
     head: {
-      title: 'MANPA B2B | Portal de Distribuidores al Mayor',
+      title: 'MANPA B2B | Industrial Purity - Portal de Distribuidores',
       meta: [
         { charset: 'utf-8' },
         { name: 'viewport', content: 'width=device-width, initial-scale=1' },
@@ -33,17 +33,17 @@ export default defineNuxtConfig({
       link: [
         { rel: 'preconnect', href: 'https://fonts.googleapis.com' },
         { rel: 'preconnect', href: 'https://fonts.gstatic.com', crossorigin: '' },
-        { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap' }
+        { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700;800&display=swap' }
       ]
     }
   },
 
   runtimeConfig: {
-    supabaseServiceKey: process.env.SUPABASE_SERVICE_ROLE_KEY,
-    resendApiKey: process.env.RESEND_API_KEY,
+    supabaseServiceKey: process.env.SUPABASE_SERVICE_ROLE_KEY || '',
+    resendApiKey: process.env.RESEND_API_KEY || '',
     public: {
-      supabaseUrl: process.env.SUPABASE_URL,
-      supabaseKey: process.env.SUPABASE_KEY
+      supabaseUrl: process.env.SUPABASE_URL || 'https://voyatlhmdfbkpisdyqzy.supabase.co',
+      supabaseKey: process.env.SUPABASE_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.dummy'
     }
   }
 })

@@ -11,27 +11,44 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        sans: ['"Plus Jakarta Sans"', 'sans-serif'],
-        heading: ['Outfit', 'sans-serif'],
+        sans: ['"Hanken Grotesk"', 'sans-serif'],
+        heading: ['"Hanken Grotesk"', 'sans-serif'],
       },
       colors: {
         brand: {
-          50: '#F0F7FF',
-          100: '#E0EFFE',
-          200: '#BAE0FD',
-          300: '#7CD0FC',
-          400: '#38BDF8',
-          500: '#0284C7',
-          600: '#0369A1',
-          700: '#075985',
-          800: '#0C4A6E',
-          900: '#0F172A',
-          950: '#0B0F19'
+          50: '#F0F4FA',
+          100: '#D9E2F5',
+          200: '#B1C5FF',
+          300: '#90AAF1',
+          400: '#5E81C7',
+          500: '#274484',
+          600: '#1F3D7D', // Primary Navy
+          700: '#123E80',
+          800: '#00285E',
+          900: '#002664', // Deep Navy
+          950: '#001947'
         },
-        gold: {
-          500: '#F59E0B',
-          600: '#D97706',
+        accent: {
+          500: '#E1251B', // Secondary Red
+          600: '#BC0004',
+          700: '#930002',
+        },
+        paper: {
+          surface: '#F7F9FB',
+          container: '#ECEEF0',
+          white: '#FFFFFF',
+          dark: '#191C1E',
+          slate: '#1E293B',
+          border: '#E2E8F0',
+          outline: '#747781'
         }
+      },
+      borderRadius: {
+        'xl': '1.5rem',
+        'lg': '1rem',
+        'md': '0.75rem',
+        'DEFAULT': '0.5rem',
+        'sm': '0.25rem'
       }
     },
   },

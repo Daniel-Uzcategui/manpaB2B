@@ -1,12 +1,12 @@
 <template>
   <div class="flex flex-col gap-1.5 select-none">
-    <div class="inline-flex items-center rounded-xl bg-slate-950/80 border border-slate-800 p-1 shadow-inner">
+    <div class="inline-flex items-center rounded-lg bg-slate-50 border-2 border-[#E2E8F0] p-1 shadow-inner">
       <!-- Decrement Button -->
       <button
         type="button"
         @click="decrement"
         :disabled="modelValue <= minQty || disabled"
-        class="w-10 h-10 flex items-center justify-center rounded-lg bg-slate-900 text-slate-300 hover:text-white hover:bg-slate-800 disabled:opacity-30 disabled:cursor-not-allowed transition-colors font-bold text-lg"
+        class="w-9 h-9 flex items-center justify-center rounded-md bg-white border border-[#E2E8F0] text-slate-700 hover:bg-slate-100 hover:text-brand-900 disabled:opacity-30 disabled:cursor-not-allowed transition-colors font-bold text-base shadow-sm"
         title="Decrementar empaque"
       >
         <Minus class="w-4 h-4" />
@@ -20,7 +20,7 @@
           @blur="onBlur"
           @keydown.enter="onBlur"
           :disabled="disabled"
-          class="w-full bg-transparent text-center text-white font-bold text-base focus:outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+          class="w-full bg-transparent text-center text-brand-900 font-extrabold text-base focus:outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
         />
       </div>
 
@@ -29,7 +29,7 @@
         type="button"
         @click="increment"
         :disabled="disabled"
-        class="w-10 h-10 flex items-center justify-center rounded-lg bg-brand-600 text-white hover:bg-brand-500 disabled:opacity-30 disabled:cursor-not-allowed transition-colors font-bold text-lg shadow-md shadow-brand-600/20"
+        class="w-9 h-9 flex items-center justify-center rounded-md bg-brand-600 text-white hover:bg-brand-700 disabled:opacity-30 disabled:cursor-not-allowed transition-colors font-bold text-base shadow-sm"
         title="Incrementar empaque"
       >
         <Plus class="w-4 h-4" />
@@ -37,9 +37,9 @@
     </div>
 
     <!-- Step & MOQ Helper Badge -->
-    <div class="flex items-center justify-between text-xs text-slate-400 px-1 font-medium">
-      <span>Mínimo: <strong class="text-slate-200">{{ minQty }}</strong></span>
-      <span>Empaque: <strong class="text-brand-400">+{{ step }} ud</strong></span>
+    <div class="flex items-center justify-between text-xs text-slate-500 font-semibold px-1">
+      <span>Mínimo: <strong class="text-brand-900">{{ minQty }}</strong></span>
+      <span>Empaque: <strong class="text-brand-600">+{{ step }} ud</strong></span>
     </div>
   </div>
 </template>

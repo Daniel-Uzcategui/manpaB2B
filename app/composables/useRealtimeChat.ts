@@ -1,7 +1,7 @@
 import type { Message } from '~/types';
 
 export const useRealtimeChat = (orderId: string) => {
-  const supabase = useSupabaseClient();
+  const supabase = useB2BSupabaseClient();
   const messages = ref<Message[]>([]);
   const loading = ref(true);
   let channel: any = null;

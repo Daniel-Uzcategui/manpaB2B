@@ -1,8 +1,8 @@
 import type { Product, CartItem } from '~/types';
 
 export const useB2BCart = () => {
-  const supabase = useSupabaseClient();
-  const user = useSupabaseUser();
+  const supabase = useB2BSupabaseClient();
+  const { user } = useB2BAuth();
 
   const items = useState<CartItem[]>('b2b_cart_items', () => []);
   const isInitialized = useState<boolean>('b2b_cart_initialized', () => false);

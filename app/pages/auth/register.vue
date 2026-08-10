@@ -1,52 +1,52 @@
 <template>
-  <div class="min-h-screen py-16 px-4 flex items-center justify-center">
-    <div class="glass-panel w-full max-w-2xl p-8 sm:p-10 space-y-8 border border-slate-800 relative">
+  <div class="min-h-screen py-16 px-4 flex items-center justify-center bg-[#F7F9FB]">
+    <div class="purity-card w-full max-w-2xl p-8 sm:p-10 space-y-8 border border-[#E2E8F0] shadow-xl relative bg-white">
       <div class="text-center space-y-2">
-        <span class="text-xs font-semibold text-brand-400 uppercase tracking-widest">Solicitud de Registro B2B</span>
-        <h1 class="text-3xl font-extrabold text-white">Alta de Empresa Distribuidora</h1>
-        <p class="text-slate-400 text-xs">Completa la información fiscal y adjunta tus documentos en PDF para ser evaluado por nuestro departamento de ventas.</p>
+        <span class="purity-chip">Solicitud de Registro B2B</span>
+        <h1 class="text-3xl font-extrabold text-brand-900 mt-2">Alta de Empresa Distribuidora</h1>
+        <p class="text-slate-500 text-xs font-medium">Completa la información fiscal y adjunta tus documentos en PDF para ser evaluado por nuestro departamento de ventas.</p>
       </div>
 
       <form @submit.prevent="handleRegister" class="space-y-6">
         <!-- Company Information -->
         <div class="space-y-4">
-          <h3 class="text-sm font-bold text-white uppercase tracking-wider border-b border-slate-800 pb-2">
+          <h3 class="text-sm font-bold text-brand-900 uppercase tracking-wider border-b border-[#E2E8F0] pb-2">
             1. Datos de la Empresa
           </h3>
 
           <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
-              <label class="block text-xs font-semibold text-slate-300 uppercase mb-1">Razón Social <span class="text-rose-500">*</span></label>
-              <input v-model="legalName" type="text" class="glass-input w-full text-sm" placeholder="Ej: Distribuidora Papelera C.A." required />
+              <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Razón Social <span class="text-accent-500">*</span></label>
+              <input v-model="legalName" type="text" class="purity-input w-full" placeholder="Ej: Distribuidora Papelera C.A." required />
             </div>
 
             <div>
-              <label class="block text-xs font-semibold text-slate-300 uppercase mb-1">RIF / NIT <span class="text-rose-500">*</span></label>
-              <input v-model="taxId" type="text" class="glass-input w-full text-sm" placeholder="J-12345678-0" required />
+              <label class="block text-xs font-bold text-slate-700 uppercase mb-1">RIF / NIT <span class="text-accent-500">*</span></label>
+              <input v-model="taxId" type="text" class="purity-input w-full" placeholder="J-12345678-0" required />
             </div>
           </div>
 
           <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
-              <label class="block text-xs font-semibold text-slate-300 uppercase mb-1">Persona de Contacto <span class="text-rose-500">*</span></label>
-              <input v-model="contactPerson" type="text" class="glass-input w-full text-sm" placeholder="Nombre completo" required />
+              <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Persona de Contacto <span class="text-accent-500">*</span></label>
+              <input v-model="contactPerson" type="text" class="purity-input w-full" placeholder="Nombre completo" required />
             </div>
 
             <div>
-              <label class="block text-xs font-semibold text-slate-300 uppercase mb-1">Teléfono Corporativo <span class="text-rose-500">*</span></label>
-              <input v-model="phone" type="tel" class="glass-input w-full text-sm" placeholder="+58 414 0000000" required />
+              <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Teléfono Corporativo <span class="text-accent-500">*</span></label>
+              <input v-model="phone" type="tel" class="purity-input w-full" placeholder="+58 414 0000000" required />
             </div>
           </div>
 
           <div>
-            <label class="block text-xs font-semibold text-slate-300 uppercase mb-1">Dirección Fiscal / Almacén <span class="text-rose-500">*</span></label>
-            <textarea v-model="address" rows="2" class="glass-input w-full text-sm" placeholder="Dirección completa del depósito..." required></textarea>
+            <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Dirección Fiscal / Almacén <span class="text-accent-500">*</span></label>
+            <textarea v-model="address" rows="2" class="purity-input w-full" placeholder="Dirección completa del depósito..." required></textarea>
           </div>
         </div>
 
         <!-- Mandatory PDF Document Uploads -->
         <div class="space-y-4">
-          <h3 class="text-sm font-bold text-white uppercase tracking-wider border-b border-slate-800 pb-2">
+          <h3 class="text-sm font-bold text-brand-900 uppercase tracking-wider border-b border-[#E2E8F0] pb-2">
             2. Documentación Obligatoria (PDF)
           </h3>
 
@@ -69,40 +69,40 @@
 
         <!-- Account User Auth Info -->
         <div class="space-y-4">
-          <h3 class="text-sm font-bold text-white uppercase tracking-wider border-b border-slate-800 pb-2">
+          <h3 class="text-sm font-bold text-brand-900 uppercase tracking-wider border-b border-[#E2E8F0] pb-2">
             3. Datos de Acceso
           </h3>
 
           <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
-              <label class="block text-xs font-semibold text-slate-300 uppercase mb-1">Correo Electrónico <span class="text-rose-500">*</span></label>
-              <input v-model="email" type="email" class="glass-input w-full text-sm" placeholder="compras@empresa.com" required />
+              <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Correo Electrónico <span class="text-accent-500">*</span></label>
+              <input v-model="email" type="email" class="purity-input w-full" placeholder="compras@empresa.com" required />
             </div>
 
             <div>
-              <label class="block text-xs font-semibold text-slate-300 uppercase mb-1">Contraseña <span class="text-rose-500">*</span></label>
-              <input v-model="password" type="password" class="glass-input w-full text-sm" placeholder="••••••••" required />
+              <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Contraseña <span class="text-accent-500">*</span></label>
+              <input v-model="password" type="password" class="purity-input w-full" placeholder="••••••••" required />
             </div>
           </div>
         </div>
 
-        <p v-if="errorMessage" class="text-xs text-rose-400 font-semibold text-center">
+        <p v-if="errorMessage" class="text-xs text-accent-600 font-semibold text-center bg-accent-50 p-2.5 rounded-lg border border-accent-200">
           {{ errorMessage }}
         </p>
 
         <button
           type="submit"
           :disabled="loading"
-          class="w-full py-4 rounded-xl bg-brand-600 hover:bg-brand-500 disabled:opacity-40 text-white font-extrabold text-base shadow-xl shadow-brand-600/30 transition-all flex items-center justify-center gap-2"
+          class="w-full btn-primary py-4 text-base"
         >
           <Loader2 v-if="loading" class="w-5 h-5 animate-spin" />
           <span>{{ loading ? 'Enviando Solicitud...' : 'Enviar Solicitud de Registro B2B' }}</span>
         </button>
       </form>
 
-      <div class="pt-4 border-t border-slate-800 text-center text-xs text-slate-400">
+      <div class="pt-4 border-t border-[#E2E8F0] text-center text-xs text-slate-600">
         ¿Ya tienes cuenta aprobada?
-        <NuxtLink to="/auth/login" class="text-brand-400 font-bold hover:underline">
+        <NuxtLink to="/auth/login" class="text-brand-600 font-bold hover:underline ml-1">
           Iniciar Sesión
         </NuxtLink>
       </div>
@@ -114,7 +114,7 @@
 import { ref } from 'vue';
 import { Loader2 } from 'lucide-vue-next';
 
-const supabase = useSupabaseClient();
+const supabase = useB2BSupabaseClient();
 const { fetchProfile } = useB2BAuth();
 
 // Form fields

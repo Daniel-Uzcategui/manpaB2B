@@ -17,7 +17,7 @@ export default defineNuxtConfig({
   supabase: {
     redirect: false, // Custom authentication middleware handled in app/middleware/auth.global.ts
     url: process.env.SUPABASE_URL || 'https://voyatlhmdfbkpisdyqzy.supabase.co',
-    key: process.env.SUPABASE_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.dummy'
+    key: process.env.SUPABASE_KEY || ''
   },
 
   css: ['~/assets/css/main.css'],
@@ -43,7 +43,7 @@ export default defineNuxtConfig({
     resendApiKey: process.env.RESEND_API_KEY || '',
     public: {
       supabaseUrl: process.env.SUPABASE_URL || 'https://voyatlhmdfbkpisdyqzy.supabase.co',
-      supabaseKey: process.env.SUPABASE_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.dummy'
+      supabaseKey: process.env.SUPABASE_KEY || ''
     }
   }
 })
